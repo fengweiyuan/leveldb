@@ -28,9 +28,11 @@ static const int kNumLevels = 7;
 static const int kL0_CompactionTrigger = 4;
 
 // Soft limit on number of level-0 files.  We slow down writes at this point.
+// level-0层文件数的软限制，到达后就会减缓写操作的速度
 static const int kL0_SlowdownWritesTrigger = 8;
 
 // Maximum number of level-0 files.  We stop writes at this point.
+// level-0层文件数的硬限制，到达后就需要等待compaction
 static const int kL0_StopWritesTrigger = 12;
 
 // Maximum level to which a new compacted memtable is pushed if it

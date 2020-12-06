@@ -26,6 +26,7 @@ class MemTable {
   MemTable(const MemTable&) = delete;
   MemTable& operator=(const MemTable&) = delete;
 
+  // 增加memtable的引用计数
   // Increase reference count.
   void Ref() { ++refs_; }
 
@@ -77,7 +78,7 @@ class MemTable {
   ~MemTable();  // Private since only Unref() should be used to delete it
 
   KeyComparator comparator_;
-  int refs_;
+  int refs_;        // memtable的引用计数
   Arena arena_;
   Table table_;
 };

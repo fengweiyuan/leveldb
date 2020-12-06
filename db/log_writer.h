@@ -17,6 +17,9 @@ class WritableFile;
 
 namespace log {
 
+/**
+ * 写redo日志的类
+ */
 class Writer {
  public:
   // Create a writer that will append data to "*dest".
@@ -40,6 +43,9 @@ class Writer {
   Status EmitPhysicalRecord(RecordType type, const char* ptr, size_t length);
 
   WritableFile* dest_;
+  /**
+   * 在32768字节的Block里面，目前指向第几个字节
+   */
   int block_offset_;  // Current offset in block
 
   // crc32c values for all supported record types.  These are

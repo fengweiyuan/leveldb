@@ -274,6 +274,9 @@ class LEVELDB_EXPORT RandomAccessFile {
 // A file abstraction for sequential writing.  The implementation
 // must provide buffering since callers may append small fragments
 // at a time to the file.
+/**
+ * 估计这是抽象类，定义了文件顺序写入的一些虚函数
+ */
 class LEVELDB_EXPORT WritableFile {
  public:
   WritableFile() = default;

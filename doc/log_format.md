@@ -3,6 +3,8 @@ leveldb Log format
 The log file contents are a sequence of 32KB blocks.  The only exception is that
 the tail of the file may contain a partial block.
 
+> 日志文件是由32KB的块组成，文件尾部的块可能不足32KB。每个32KB块，包含如下这些内容:
+
 Each block consists of a sequence of records:
 
     block := record* trailer?
@@ -12,9 +14,14 @@ Each block consists of a sequence of records:
       type: uint8          // One of FULL, FIRST, MIDDLE, LAST
       data: uint8[length]
 
+> 日志的头部，4个字节存checksum，然后2个字节存长度(所以1条日志不能超过1024*1024=1MB)，1个字节存类型。然后存日志的内容。
+
+
 A record never starts within the last six bytes of a block (since it won't fit).
 Any leftover bytes here form the trailer, which must consist entirely of zero
 bytes and must be skipped by readers.
+
+> 最短的日志条目(不包含任何数据)是7Byte，所以如果一个block还剩下6个Byte，就不会拿来用了，而是直接全部填充0.
 
 Aside: if exactly seven bytes are left in the current block, and a new non-zero
 length record is added, the writer must emit a FIRST record (which contains zero
@@ -24,10 +31,12 @@ emit all of the user data in subsequent blocks.
 More types may be added in the future.  Some Readers may skip record types they
 do not understand, others may report that some data was skipped.
 
-    FULL == 1
-    FIRST == 2
-    MIDDLE == 3
-    LAST == 4
+> 将来可能会添加更多类型，所以一些日志解释工具，可能就不能很好地工作了，要注意这个问题。
+
+    FULL == 1    说明该log record包含一个完整的user record
+    FIRST == 2   说明是user record的第一条log record
+    MIDDLE == 3  说明是user record中间的log record
+    LAST == 4    说明是user record最后的一条log record
 
 The FULL record contains the contents of an entire user record.
 
@@ -51,6 +60,12 @@ the third fragment occupies a prefix of the third block.  This will leave six
 bytes free in the third block, which will be left empty as the trailer.
 
 **C** will be stored as a FULL record in the fourth block.
+
+> 这里有一个例子，有三条用户日志，分别是1000字节，97270字节，8000字节。
+而我们也知道，一个block是32KB=32768字节。
+所以存入A日志时，会用FULL标记，说明日志没有分到多个block上存储。
+B日志会被拆分成三部分，分别存储在第1、2、3个block中。这时，block3还剩下6Byte，将全部填充0。
+C日志也会用FULL标记，存储在第4个block上。
 
 ----
 

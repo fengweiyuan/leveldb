@@ -79,6 +79,9 @@ struct LEVELDB_EXPORT Options {
   // so you may wish to adjust this parameter to control memory usage.
   // Also, a larger write buffer will result in a longer recovery time
   // the next time the database is opened.
+  /**
+   * memtable大小限制(之类的写buffer就是说的memtable)，默认4MB，可以适当调整，大一些性能应该会好一些，特别是对于批量导入(写)操作来说，但太大后，打开数据库就需要比较长的时间做recover
+   */
   size_t write_buffer_size = 4 * 1024 * 1024;
 
   // Number of open files that can be used by the DB.  You may need to

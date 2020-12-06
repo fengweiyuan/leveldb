@@ -15,18 +15,24 @@ enum RecordType {
   // Zero is reserved for preallocated files
   kZeroType = 0,
 
-  kFullType = 1,
+  kFullType = 1,    /*整个日志可以放到一个block中*/
 
   // For fragments
-  kFirstType = 2,
-  kMiddleType = 3,
-  kLastType = 4
+  kFirstType = 2,   /*日志被分割了，这个开始的部分*/
+  kMiddleType = 3,  /*日志被分割了，这个中间的部分*/
+  kLastType = 4     /*日志被分割了，这个结束的部分*/
 };
 static const int kMaxRecordType = kLastType;
 
-static const int kBlockSize = 32768;
+/**
+ * 日志的一个block是32768字节
+ */
+static const int kBlockSize = 32768;  
 
 // Header is checksum (4 bytes), length (2 bytes), type (1 byte).
+/**
+ * 就算没有任何内容,最短的日志也得占7个字节的头部
+ */
 static const int kHeaderSize = 4 + 2 + 1;
 
 }  // namespace log

@@ -17,6 +17,9 @@ class SequentialFile;
 
 namespace log {
 
+/**
+ * 日志读取器
+ */
 class Reader {
  public:
   // Interface for reporting errors.
@@ -53,6 +56,9 @@ class Reader {
   // "*scratch" as temporary storage.  The contents filled in *record
   // will only be valid until the next mutating operation on this
   // reader or the next mutation to *scratch.
+  /**
+   * 读取下一条日志到 *record 处
+   */
   bool ReadRecord(Slice* record, std::string* scratch);
 
   // Returns the physical offset of the last record returned by ReadRecord.
@@ -93,11 +99,14 @@ class Reader {
   bool eof_;  // Last Read() indicated EOF by returning < kBlockSize
 
   // Offset of the last record returned by ReadRecord.
+  // 通过ReadRecord()方法，会返回最后一条日志的指针
   uint64_t last_record_offset_;
+
   // Offset of the first location past the end of buffer_.
   uint64_t end_of_buffer_offset_;
 
   // Offset at which to start looking for the first record to return
+  // 开始指向
   uint64_t const initial_offset_;
 
   // True if we are resynchronizing after a seek (initial_offset_ > 0). In

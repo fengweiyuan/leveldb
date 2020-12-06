@@ -26,6 +26,13 @@
 // more lists.
 //
 // ... prev vs. next pointer ordering ...
+/**
+ * 线程安全说明
+ * 写操作需要额外的同步(锁)机制如mutex，读操作就不需要，但需要读的期间skiplist不能被销毁掉。
+ * 不变量(可以理解为原则)
+ * (1) skiplist的节点不会被删除，除非skiplist整个被销毁。
+ * (2) 一个节点链接到skiplist后，除了next/prev指针外，都是是不可改变的。只有Insert()会改变skiplist。初始化节点的过程都会非常注意。
+ */
 
 #include <atomic>
 #include <cassert>

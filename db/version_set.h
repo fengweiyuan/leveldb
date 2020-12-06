@@ -300,7 +300,7 @@ class VersionSet {
   const InternalKeyComparator icmp_;
   uint64_t next_file_number_;
   uint64_t manifest_file_number_;
-  uint64_t last_sequence_;
+  uint64_t last_sequence_;          /*每个写请求都会对应唯一的递增序列号*/
   uint64_t log_number_;
   uint64_t prev_log_number_;  // 0 or backing store for memtable being compacted
 

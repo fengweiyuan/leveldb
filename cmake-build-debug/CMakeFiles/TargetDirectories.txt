@@ -1,0 +1,3 @@
+/Users/fwy/code/pub/leveldb/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/fwy/code/pub/leveldb/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/fwy/code/pub/leveldb/cmake-build-debug/CMakeFiles/leveldb.dir

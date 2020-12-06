@@ -24,6 +24,9 @@
 
 namespace leveldb {
 
+/**
+ * go语言也有slice，估计是差不多的，有点像redis的sds，用一个结构体来表达字符串，能在O(1)的时间复杂度获得总长度，能方便扩缩容，二进制安全，末尾没有"\0"等。
+ */
 class LEVELDB_EXPORT Slice {
  public:
   // Create an empty slice.
